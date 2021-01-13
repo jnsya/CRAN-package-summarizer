@@ -10,6 +10,16 @@ class Package < ApplicationRecord
                 url: get_url(hash['Package'], hash['Version']))
   end
 
+  def update_from_description(description)
+    hash = description.split("\n").map do |str|
+      str.split(":", 2).map(&:strip)
+    end.select do |arr|
+      arr.count == 2
+    end.to_h
+
+    update!(title: hash["Title"], authors: hash['Author'], maintainers: hash['Maintainer'], publication_date: hash['Date/Publication'].to_date)
+  end
+
   class << self
     private
 

@@ -32,4 +32,17 @@ RSpec.describe Package do
       expect(Package.pluck(:r_version_needed)).to match_array(['>=2.10', '>=2.10.1', '>=3.5.0', '>=2.10', '', ''])
     end
   end
+
+  describe '#update_from_description' do
+    it 'updates a package with the correct attributes from a decompressed, DCF-formatted file' do
+      package = Package.create(name: "Example")
+
+      package.update_from_description(File.read(Rails.root.join("spec", "fixtures", "decompressed_packages_description_example")))
+
+      expect(package.maintainers).to eq("Marc Henrion <mhenrion@mlw.mw>")
+      expect(package.authors).to eq("Marc Henrion [aut, cre] (<https://orcid.org/0000-0003-1242-839X>)")
+      expect(package.title).to eq("Combine Parameter Estimates via Parametric Bootstrap")
+      expect(package.publication_date).to eq(Date.new(2020, 11, 18))
+    end
+  end
 end
