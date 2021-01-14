@@ -1,7 +1,7 @@
 class Package < ApplicationRecord
   BASE_URL = 'http://cran.r-project.org/src/contrib/PACKAGE_VERSION.tar.gz'
 
-  def self.create_from_summary(summary)
+  def self.create_from_list(summary)
     self.create(name:             summary["Package"],
                 version:          summary['Version'],
                 r_version_needed: get_r_version_needed(summary['Depends']),

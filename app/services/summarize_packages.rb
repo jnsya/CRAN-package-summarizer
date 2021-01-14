@@ -10,7 +10,7 @@ class SummarizePackages
 
   def call
     list.split("\n\n").each do |package|
-      Package.create_from_summary(YAML.safe_load(package))
+      Package.create_from_list(YAML.safe_load(package))
     end
   end
 

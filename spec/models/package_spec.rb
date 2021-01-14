@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Package do
-  describe '.create_from_summary' do
+  describe '.create_from_list' do
     it 'creates a package with the correct attributes from the summary file' do
       summary = { "Package"=>"ActFrag",
                     "Version"=>"0.1.1",
@@ -12,7 +12,7 @@ RSpec.describe Package do
                     "MD5sum"=>"027ebdd8affce8f0effaecfcd5f5ade2",
                     "NeedsCompilation"=>"no" }
 
-      Package.create_from_summary(summary)
+      Package.create_from_list(summary)
 
       package = Package.last
       expect(package.name).to eq('ActFrag')
@@ -26,7 +26,7 @@ RSpec.describe Package do
     it 'saves the correct r_version_required from various formats' do
       various_dependency_formats = ['Rglpk,rgl,corrplot,lattice,R (>= 2.10)', 'R(>= 2.10.1)', 'R (>= 3.5.0),', 'tuneR (>= 1.0), R (>= 2.10)', nil, 'corrplot']
       various_dependency_formats.each do |string|
-        Package.create_from_summary({ 'Depends' => string })
+        Package.create_from_list({ 'Depends' => string })
       end
 
       expect(Package.pluck(:r_version_needed)).to match_array(['>=2.10', '>=2.10.1', '>=3.5.0', '>=2.10', '', ''])
