@@ -3,6 +3,12 @@
 require 'rubygems/package'
 require 'open-uri'
 
+# This service updates a collection of packages with fields taken from the package's description
+# file on the CRAN server.
+#
+# For each package, the service retrieves the compressed package archive from the CRAN server,
+# decompresses and un-archives it, and triggers an update by passing the description file to the
+# Package model.
 class UpdatePackageDetails
   def initialize(http_client: URI, packages: Package.all)
     self.packages = packages

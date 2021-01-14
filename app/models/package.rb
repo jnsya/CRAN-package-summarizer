@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Represents
+# A package represents a library for the programming language "R".
 class Package < ApplicationRecord
   BASE_URL = 'http://cran.r-project.org/src/contrib/PACKAGE_VERSION.tar.gz'
 

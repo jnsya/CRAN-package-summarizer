@@ -3,6 +3,7 @@
 require 'net/ftp'
 require 'yaml'
 
+# This service creates packages from the packages list overview file contained on the CRAN server.
 class CreatePackagesFromList
   LIST_FILEPATH = '/pub/R/src/contrib/PACKAGES'
 
