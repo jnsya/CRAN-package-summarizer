@@ -1,23 +1,33 @@
 class Package < ApplicationRecord
   BASE_URL = 'http://cran.r-project.org/src/contrib/PACKAGE_VERSION.tar.gz'
 
-  def self.create_from_summary(hash)
-    self.create(name: hash["Package"],
-                version: hash['Version'],
-                r_version_needed: get_r_version_needed(hash['Depends']),
-                license: hash['License'],
-                dependencies: hash['Depends'],
-                url: get_url(hash['Package'], hash['Version']))
+  def self.create_from_summary(summary)
+    self.create(name:             summary["Package"],
+                version:          summary['Version'],
+                r_version_needed: get_r_version_needed(summary['Depends']),
+                license:          summary['License'],
+                dependencies:     summary['Depends'],
+                url:              get_url(summary['Package'], summary['Version']))
   end
 
   def update_from_description(description)
-    hash = description.split("\n").map do |str|
+    description = convert_dcf_to_hash(description)
+
+    begin
+      update(title: description["Title"], authors: description['Author'], maintainers: description['Maintainer'], publication_date: description['Date/Publication'].to_date)
+    rescue ActiveRecord::StatementInvalid
+      Rails.logger.info "There was a problem with: #{package.id}. Check the encoding."
+    end
+  end
+
+  private
+
+  def convert_dcf_to_hash(dcf_string)
+    dcf_string.split("\n").map do |str|
       str.split(":", 2).map(&:strip)
     end.select do |arr|
       arr.count == 2
     end.to_h
-
-    update!(title: hash["Title"], authors: hash['Author'], maintainers: hash['Maintainer'], publication_date: hash['Date/Publication'].to_date)
   end
 
   class << self

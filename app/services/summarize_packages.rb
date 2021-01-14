@@ -2,19 +2,26 @@ require 'net/ftp'
 require 'yaml'
 
 class SummarizePackages
+  LIST_FILEPATH = "/pub/R/src/contrib/PACKAGES"
+
   def initialize(ftp_client: Net::FTP.new('cran.r-project.org'))
     self.ftp_client = ftp_client
   end
 
   def call
-    ftp_client.login
-    data = ftp_client.get("/pub/R/src/contrib/PACKAGES", nil)
-    ftp_client.close
-
-    data.split("\n\n").each { |p| Package.create_from_summary(YAML.safe_load(p)) }
+    list.split("\n\n").each do |package|
+      Package.create_from_summary(YAML.safe_load(package))
+    end
   end
 
   private
+
+  def list
+    ftp_client.login
+    list = ftp_client.get(LIST_FILEPATH, nil)
+    ftp_client.close
+    list
+  end
 
   attr_accessor :ftp_client
 end
