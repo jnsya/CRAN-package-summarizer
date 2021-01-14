@@ -1,11 +1,11 @@
 require "rails_helper"
 
-RSpec.describe ExtractDescriptions do
+RSpec.describe UpdatePackageDetails do
   it "updates existing packages with data from the description file of a compressed package archive" do
     package = Package.create(name: "ForestFit")
     mock_http_client = class_double("URI")
     compressed_package = File.new(Rails.root.join("spec", "fixtures", "compressed_package.tar.gz"))
-    service = ExtractDescriptions.new(http_client: mock_http_client)
+    service = UpdatePackageDetails.new(http_client: mock_http_client)
     expect(mock_http_client).to receive(:parse).and_return(compressed_package)
 
     service.call

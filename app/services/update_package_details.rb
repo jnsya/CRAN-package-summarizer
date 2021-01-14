@@ -1,7 +1,7 @@
 require 'rubygems/package'
 require 'open-uri'
 
-class ExtractDescriptions
+class UpdatePackageDetails
   def initialize(http_client: URI, packages: Package.all)
     self.packages = packages
     self.http_client = http_client

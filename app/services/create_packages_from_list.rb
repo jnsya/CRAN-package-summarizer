@@ -1,7 +1,7 @@
 require 'net/ftp'
 require 'yaml'
 
-class SummarizePackages
+class CreatePackagesFromList
   LIST_FILEPATH = "/pub/R/src/contrib/PACKAGES"
 
   def initialize(ftp_client: Net::FTP.new('cran.r-project.org'))

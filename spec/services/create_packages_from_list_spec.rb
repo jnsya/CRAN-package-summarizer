@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.describe SummarizePackages do
+RSpec.describe CreatePackagesFromList do
   it "creates the correct number of packages with the correct details" do
     mock_ftp_client = instance_double("Net::FTP.new")
-    service = SummarizePackages.new(ftp_client: mock_ftp_client)
+    service = CreatePackagesFromList.new(ftp_client: mock_ftp_client)
     packages_overview_example = File.read(Rails.root.join('spec', 'fixtures', 'packages_overview_example'))
     expect(mock_ftp_client).to receive(:get).with("/pub/R/src/contrib/PACKAGES", nil).and_return(packages_overview_example)
     expect(mock_ftp_client).to receive(:login)
