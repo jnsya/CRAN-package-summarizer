@@ -1,9 +1,11 @@
-require "rails_helper"
+# frozen_string_literal: true
+
+require 'rails_helper'
 
 RSpec.describe RecreateAllPackages do
-  it "deletes all packages and calls the services to create new ones" do
-    create_packages = instance_double("CreatePackagesFromList.new")
-    update_package_details = instance_double("UpdatePackageDetails.new")
+  it 'deletes all packages and calls the services to create new ones' do
+    create_packages = instance_double('CreatePackagesFromList.new')
+    update_package_details = instance_double('UpdatePackageDetails.new')
     service = RecreateAllPackages.new(create_packages: create_packages, update_package_details: update_package_details)
 
     expect(Package).to receive(:delete_all)

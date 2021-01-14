@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RecreateAllPackages
   def initialize(create_packages: CreatePackagesFromList.new, update_package_details: UpdatePackageDetails.new)
     self.create_packages = create_packages

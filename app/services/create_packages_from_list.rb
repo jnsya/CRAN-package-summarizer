@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'net/ftp'
 require 'yaml'
 
 class CreatePackagesFromList
-  LIST_FILEPATH = "/pub/R/src/contrib/PACKAGES"
+  LIST_FILEPATH = '/pub/R/src/contrib/PACKAGES'
 
   def initialize(ftp_client: Net::FTP.new('cran.r-project.org'))
     self.ftp_client = ftp_client
@@ -16,12 +18,12 @@ class CreatePackagesFromList
 
   private
 
+  attr_accessor :ftp_client
+
   def list
     ftp_client.login
     list = ftp_client.get(LIST_FILEPATH, nil)
     ftp_client.close
     list
   end
-
-  attr_accessor :ftp_client
 end
